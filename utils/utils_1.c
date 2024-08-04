@@ -1,42 +1,67 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_1.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cjuarez <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/03 11:08:36 by cjuarez           #+#    #+#             */
+/*   Updated: 2024/08/03 11:09:42 by cjuarez          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../push_swap.h"
 
-void push_normal(node **cur_a, node **cur_b, node **buf)
+int	is_(char c)
 {
-    if ((*cur_b)->stack == 'a')
-        (*cur_b)->stack = 'b';
-    else
-        (*cur_b)->stack = 'a';
-    *buf = (*cur_b)->next; // 2b
-    (*cur_b)->next = *cur_a; // 1b -> 1a
-    (*cur_a)->prev = *cur_b; // 1b <- 1a
-    (*buf)->prev = NULL; // NULL <- 2b
-}
-void b_only_one(node **cur_a, node **cur_b)
-{
-        if ((*cur_b)->stack == 'a')
-            (*cur_b)->stack = 'b';
-        else
-            (*cur_b)->stack = 'a';
-        (*cur_b)->next = *cur_a; // 1b -> 1a
-        (*cur_a)->prev = *cur_b; // 1b <- 1a
+	if (c == ' ' || c == '\t' || c == '\n')
+		return (1);
+	return (0);
 }
 
-void a_empty(node **cur_a, node **cur_b)
+long	nr_of_str(char *argv)
 {
-        if ((*cur_b)->stack == 'a')
-            (*cur_b)->stack = 'b';
-        else
-            (*cur_b)->stack = 'a';
-        *cur_a = *cur_b;
-        if ((*cur_b)->next)
-            (*cur_b)->next->prev = NULL;
-        *cur_b = (*cur_b)->next;
-        (*cur_a)->next = NULL;
+	unsigned int	i;
+	unsigned int	size;
+
+	i = 0;
+	size = 0;
+	while (argv[i])
+	{
+		if ((i == 0 && !is_(argv[i]))
+			|| (is_(argv[i - 1]) && !is_(argv[i])))
+			size++;
+		i++;
+	}
+	return (size);
 }
 
-int is_space(char c)
+void	free_list(t_node *root)
 {
-    if (c == ' ' || c == '\t' || c == '\n')
-        return (1);
-    return (0);
+	t_node	*curr;
+	t_node	*buf;
+
+	curr = root;
+	while (curr)
+	{
+		buf = curr;
+		curr = curr->next;
+		free(buf);
+	}
+	buf = NULL;
+	root = NULL;
+}
+
+void	free_set(char **set)
+{
+	int	i;
+
+	i = 0;
+	while (*(set + i))
+	{
+		free(*(set + i));
+		*(set + i) = NULL;
+		i++;
+	}
+	free(set);
 }
