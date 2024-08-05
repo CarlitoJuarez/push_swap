@@ -13,7 +13,7 @@ while [ $i -gt 0 ]; do
     if [ $j -gt 700 ]; then
         echo "TO BIG $j"
     else
-        echo "THIS: $j"
+        echo "$j"
     fi
     ((i--))
 done

@@ -69,15 +69,25 @@ void	set_price_b(t_node *root_b)
 			if (cur->target->up == 1)
 			{
 				if (cur->position > cur->target->price)
-					cur->price = cur->position - cur->target->price;
+					cur->price = cur->position;
 				else
-					cur->price = cur->target->price - cur->position;
+					cur->price = cur->target->price;
 			}
 			else
 				cur->price = cur->position + cur->target->price;
 		}
-		else
-			cur->price = (len - cur->position) + cur->target->price;
+		else 
+		{
+			if (cur->target->up == 0)
+			{
+				if (cur->position > cur->target->price)
+					cur->price = len - cur->position;
+				else
+					cur->price = cur->target->price;
+			}
+			else
+				cur->price = (len - cur->position) + cur->target->price;
+		}
 		cur = cur->next;
 	}
 }
@@ -87,15 +97,20 @@ void	set_price_a(t_node *root_a, t_node *root_b)
 	int		len;
 	t_node	*cur;
 
-
 	len = len_of(root_a);
 	cur = root_a;
 	while (cur)
 	{
 		if (cur->position < len / 2)
+		{
 			cur->price = cur->position;
+			cur->up = 1;
+		}
 		else
+		{
 			cur->price = len - cur->position;
+			cur->up = 0;
+		}
 		cur = cur->next;
 	}
 	set_price_b(root_b);

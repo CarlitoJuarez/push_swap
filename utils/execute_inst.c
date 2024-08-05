@@ -68,10 +68,6 @@ void	exec_rrotate(t_node **root)
 
 	cur = *root;
 	buf = cur;
-	if ((*root)->stack == 'a')
-		ft_printf("rra\n");
-	else
-		ft_printf("rrb\n");
 	while (buf)
 	{
 		if (buf->next)
@@ -91,10 +87,6 @@ void	exec_rotate(t_node **root)
 	t_node	*buf;
 	t_node	*cur;
 
-	if ((*root)->stack == 'a')
-		ft_printf("ra\n");
-	else
-		ft_printf("rb\n");
 	cur = *root;
 	buf = cur;
 	while (buf)

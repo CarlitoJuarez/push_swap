@@ -14,7 +14,7 @@
 
 void	send_a_up(t_node **root_a, t_node **root_b, t_node *target, int pos)
 {
-	if (target->position < (len_of(*root_b) / 2 + 1))
+	if (target->position < (len_of(*root_b) / 2))
 	{
 		while (pos && target->position)
 		{
@@ -24,24 +24,33 @@ void	send_a_up(t_node **root_a, t_node **root_b, t_node *target, int pos)
 			pos--;
 			target->position--;
 		}
+		while (target->position)
+		{
+			exec_rotate(root_b);
+			ft_printf("rb\n");
+			target->position--;
+		}
+	}
+	else
+	{
+		while (target->position != len_of(*root_b))
+		{
+			exec_rrotate(root_b);
+			ft_printf("rrb\n");
+			target->position++;
+		}
 	}
 	while (pos)
 	{
 		exec_rotate(root_a);
-		ft_printf("rra\n");
+		ft_printf("ra\n");
 		pos--;
-	}
-	while (target->position != len_of(*root_b))
-	{
-		exec_rotate(root_b);
-		ft_printf("rrb\n");
-		target->position++;
 	}
 }
 
 void	send_a_down(t_node **root_a, t_node **root_b, t_node *target, int pos)
 {
-	if (target->position > (len_of(*root_b) / 2 + 1))
+	if (target->position > (len_of(*root_b) / 2))
 	{
 		while (pos != len_of(*root_a) && target->position != len_of(*root_b))
 		{
@@ -51,21 +60,29 @@ void	send_a_down(t_node **root_a, t_node **root_b, t_node *target, int pos)
 			pos++;
 			target->position++;
 		}
+		while (target->position != len_of(*root_b))
+		{
+			exec_rrotate(root_b);
+			ft_printf("rrb\n");
+			target->position++;
+		}
+	}
+	else 
+	{
+		while (target->position)
+		{
+			exec_rotate(root_b);
+			ft_printf("rb\n");
+			target->position--;
+		}
 	}
 	while (pos != len_of(*root_a))
 	{
-		exec_rotate(root_a);
+		exec_rrotate(root_a);
 		ft_printf("rra\n");
 		pos++;
 	}
-	while (target->position)
-	{
-		exec_rotate(root_b);
-		ft_printf("ra\n");
-		target->position--;
-	}
 }
-
 
 void	bring_to_start(t_node **root_a, t_node **root_b)
 {
@@ -78,7 +95,9 @@ void	bring_to_start(t_node **root_a, t_node **root_b)
 	target = cheapest->target;
 	len = len_of(*root_a);
 	pos = cheapest->position;
-	if (pos < (len / 2 + 1))
+	// 3 5 22 24
+	// 6 9 21
+	if (pos < (len / 2))
 		send_a_up(root_a, root_b, target, pos);
 	else
 		send_a_down(root_a, root_b, target, pos);

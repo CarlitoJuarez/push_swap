@@ -42,29 +42,61 @@ void	push_to_b(t_node **root_a, t_node **root_b)
 
 void	push_swap(t_node **root)
 {
-	// long	len;
+	long	len;
 	t_node	*root_a;
 	t_node	*root_b;
-	// t_node	*min;
+	t_node	*min;
 
 	root_a = *root;
 	root_b = NULL;
-	push_to_b(&root_a, &root_b);
+	// if (len_of(root_a) >= 5)
+	// {
+	// 	push_to_b(&root_a, &root_b);
+	// 	while (len_of(root_a) > 3)
+	// 	{
+	// 		init_nodes(root_b, root_a);
+	// 		exec_algo(&root_a, &root_b);
+	// 	}
+	// }
+	// else if (len_of(root_a) == 4)
+	// {
+	// 	ft_printf("pb\n");
+	// 	exec_push(&root_b, &root_a);
+	// }
 	while (len_of(root_a) > 3)
 	{
-		init_nodes(root_b, root_a);
-		exec_algo(&root_a, &root_b);
+		ft_printf("pb\n");
+		exec_push(&root_b, &root_a);
 	}
 	three_nodes(&root_a);
-	exec_algo_2(&root_a, &root_b);
-	// min = find_min(root_a);
-	// len = len_of(root_a);
-	// if (min->position < len / 2)
-	// 	while (root_a != min)
-	// 		exec_rotate(&root_a);
-	// else
-	// 	while (root_a != min)
-	// 		exec_rrotate(&root_a);
+	while (len_of(root_b))
+	{
+		init_nodes(root_a, root_b);
+		exec_algo_2(&root_a, &root_b);
+	}
+	// print_it(root_a);
+	min = find_min(root_a);
+	len = len_of(root_a);
+	init_nodes(root_a, root_b);
+	if (min->position < (len / 2))
+	{
+		while (root_a != min)
+		{
+			exec_rotate(&root_a);
+			ft_printf("ra\n");
+		}
+		min->position--;
+	}
+	else
+	{
+		while (len != min->position)
+		{
+			exec_rrotate(&root_a);
+			ft_printf("rra\n");
+			min->position++;
+		}
+	}
+	// print_it(root_a);
 }
 
 t_node	*arr_to_ll(char **argv)
@@ -129,7 +161,6 @@ int	main(int argc, char **argv)
 	t_node	*root_a;
 	char	**arr;
 
-	printf("CUK\n");
 	root_a = NULL;
 	if (1 == argc || (2 == argc && !argv[1][0]))
 		return (0);

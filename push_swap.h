@@ -56,6 +56,7 @@ int		is_sorted(t_node *root);
 // utils_3
 
 void	bring_to_start(t_node **root_a, t_node **root_b);
+void	bring_to_start_2(t_node **root_a, t_node **root_b);
 
 int		len_of(t_node *root);
 
